@@ -16,13 +16,18 @@ class Account {
         this.name = name;
         this.balance = balance;
         this.transactionHistory = [];
+
+        if (balance > 0) {
+            this.transactionHistory.push({transactionType: `Initial Deposit`, amount: balance});
+        }
     }
     deposit(amount) {
         if (amount <= 0) {
             console.log('Invalid amount!');
+        } else {
+            this.balance += amount;
+            this.transactionHistory.push({transactionType: 'Deposit', amount: amount});
         }
-        this.balance += amount;
-        this.transactionHistory.push({transactionType: 'Deposit', amount: amount});
     }
     withdraw(amount) {
         if (amount > this.balance) {
