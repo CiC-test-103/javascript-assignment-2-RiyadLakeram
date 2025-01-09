@@ -15,18 +15,21 @@ class Account {
     constructor(name, balance = 0) {
         this.name = name;
         this.balance = balance;
-        this.transactionHistory1 = [];
+        this.transactionHistory = [];
     }
     deposit(amount) {
+        if (amount <= 0) {
+            console.log('Invalid amount!');
+        }
         this.balance += amount;
-        this.transactionHistory1.push({transactionType: 'Deposit', amount: amount});
+        this.transactionHistory.push({transactionType: 'Deposit', amount: amount});
     }
     withdraw(amount) {
         if (amount > this.balance) {
             console.log("Insufficient Funds");
         } else {
             this.balance -= amount;
-            this.transactionHistory1.push({transactionType: 'Withdrawal', amount: amount});
+            this.transactionHistory.push({transactionType: 'Withdrawal', amount: amount});
         }
     }
     transfer(amount, recipientAccount) {
@@ -35,16 +38,8 @@ class Account {
         } else {
             this.balance -= amount;
             recipientAccount.balance += amount;
-            this.transactionHistory1.push({transactionType: 'Transfer', amount: amount, to: recipientAccount.name });
-            recipientAccount.transactionHistory1.push({transactionType: 'Received', amount: amount, from: this.name});
-        }
-    }
-    get transactionHistory() {
-        if (this.transactionHistory1.length === 0) {
-            return `No Transaction History`;
-        } else {
-            return this.transactionHistory1;
-
+            this.transactionHistory.push({transactionType: 'Transfer', amount: amount, to: recipientAccount.name });
+            recipientAccount.transactionHistory.push({transactionType: 'Received', amount: amount, from: this.name});
         }
     }
     checkBalance() {
