@@ -16,10 +16,6 @@ class Account {
         this.name = name;
         this.balance = balance;
         this.transactionHistory = [];
-
-        if (balance > 0) {
-            this.transactionHistory.push({transactionType: `Initial Deposit`, amount: balance});
-        }
     }
     deposit(amount) {
         if (amount <= 0) {
