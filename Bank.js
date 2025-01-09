@@ -4,33 +4,52 @@ class Bank {
     constructor() {
         this.accounts = []; // Stores all accounts in the bank
     }
-
-    // Add methods here:
-    // Example: createAccount(name, initialDeposit)
-
+    createAccount(name, initialDeposit) {
+        const newAccount = new Account(name, initialDeposit);
+        this.accounts.push(newAccount);
+        return newAccount;
+    }
 }
 
-// Account Class: Represents a single user's account
 class Account {
     constructor(name, balance = 0) {
-        this.name = name; // Account holder's name
-        this.balance = balance; // Initial balance (default is 0)
-        this.transactionHistory = []; // Keeps a record of all transactions
+        this.name = name;
+        this.balance = balance;
+        this.transactionHistory1 = [];
     }
+    deposit(amount) {
+        this.balance += amount;
+        this.transactionHistory1.push({transactionType: 'Deposit', amount: amount});
+    }
+    withdraw(amount) {
+        if (amount > this.balance) {
+            console.log("Insufficient Funds");
+        } else {
+            this.balance -= amount;
+            this.transactionHistory1.push({transactionType: 'Withdrawal', amount: amount});
+        }
+    }
+    transfer(amount, recipientAccount) {
+        if (amount > this.balance) {
+            console.log("Insufficient Funds");
+        } else {
+            this.balance -= amount;
+            recipientAccount.balance += amount;
+            this.transactionHistory1.push({transactionType: 'Transfer', amount: amount, to: recipientAccount.name });
+            recipientAccount.transactionHistory1.push({transactionType: 'Received', amount: amount, from: this.name});
+        }
+    }
+    get transactionHistory() {
+        if (this.transactionHistory1.length === 0) {
+            return `No Transaction History`;
+        } else {
+            return this.transactionHistory1;
 
-    // Add methods here:
-    // Example: deposit(amount) 
-    // example data to be stored in transactionHistory { transactionType: 'Deposit', amount: 500 }
-
-    // Example: withdraw(amount)
-    // example data to be stored in transactionHistory { transactionType: 'Withdrawal', amount: 200 }
-
-    // Example: transfer(amount, recipientAccount)
-    // example data to be stored in transactionHistory:
-    // for account sending { transactionType: 'Transfer', amount: 300, to: recipientName }
-    // for account recieving { transactionType: 'Received', amount: 300, from: senderName }
-    
-    // Example: checkBalance()
+        }
+    }
+    checkBalance() {
+        return this.balance;
+    }
 }
 
 //<-------------------------------DO NOT WRITE BELOW THIS LINE------------------------------>
